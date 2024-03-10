@@ -8,9 +8,13 @@ const createProject = async (req, res) => {
     }
 
     try {
+        const checkName = req.body.username.trim().toLowerCase();
+        const projectExists = await Project.findOne({ name: { $regex: new RegExp(`^${checkName}$`, 'i') } });
+        if (projectExists) {
+            return res.status(400).json({ error: "Project with this name already exists" });
+        }
         const connection = await mongoose.createConnection(req.body.dbUrl);
         connection.on('connected', async () => {
-            console.log('Connected to database');
             const project = await Project.create({
                 ...req.body,
                 admin: req.user.id
