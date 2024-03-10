@@ -33,7 +33,8 @@ const createProject = async (req, res) => {
 
 const getAllProjects = async (req, res) => {
     try {
-        const projects = await Project.findById(req.user.id);
+        const projects = await Project.find({admin : req.user.id})
+        console.log(projects);
         res.status(200).json({message : projects});
     } catch (error) {
         res.status(500).json({ error: error.message });
