@@ -71,7 +71,7 @@ const VerifyUser = async (req, res) => {
   try {
     const verify = jwt.verify(req.query.id, process.env.LoginSecret);
     const user = await User.findById(verify.id);
-    user.verified = true;
+    user.isAuthenticated = true;
     await user.save();
     res.status(200).json({ message: "User verified" });
   } catch (error) {
