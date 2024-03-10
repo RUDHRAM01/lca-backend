@@ -8,7 +8,7 @@ const createProject = async (req, res) => {
     }
 
     try {
-        const checkName = req.body.username.trim().toLowerCase();
+        const checkName = req.body.name.trim().toLowerCase();
         const projectExists = await Project.findOne({ name: { $regex: new RegExp(`^${checkName}$`, 'i') } });
         if (projectExists) {
             return res.status(400).json({ error: "Project with this name already exists" });
@@ -34,7 +34,6 @@ const createProject = async (req, res) => {
 const getAllProjects = async (req, res) => {
     try {
         const projects = await Project.find({admin : req.user.id})
-        console.log(projects);
         res.status(200).json({message : projects});
     } catch (error) {
         res.status(500).json({ error: error.message });
