@@ -42,6 +42,7 @@ const transporter = nodeMailer.createTransport({
 });
 
 const sendMail = (to, token, type) => {
+    // add switch case for different types of emails
     const mailOptions = {
         from: process.env.EMAIL,
         to, 
