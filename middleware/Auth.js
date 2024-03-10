@@ -7,14 +7,12 @@ const CheckUser = (req, res, next) => {
         return res.status(401).json({ message: 'Access denied' });
     }
     const token = tok.split(' ')[1];
-    console.log(process.env.LoginSecret);
     try {
         const verified = jwt.verify(token, process.env.LoginSecret);
 
         req.user = verified;
         next();
     } catch (error) {
-        console.log(error);
         res.status(400).json({ error: 'Invalid token' });
     }
 }
