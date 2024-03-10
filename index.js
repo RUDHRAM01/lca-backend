@@ -9,8 +9,13 @@ const db = require('./db/db');
 const Auth = require('./middleware/Auth');
 db();
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true 
+  };
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/user', UserRouter);
 app.use('/api/project',[Auth], ProjectRouter);
 app.get('/', (req, res) => {
