@@ -21,7 +21,10 @@ const LoginUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    res.status(200).json({ message: generateToken(user, "30d") });
+    res.status(200).json({ message: {
+      token: generateToken(user),
+      user: user.username
+    }});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
