@@ -1,5 +1,6 @@
 const Project = require('../models/Project');
 const mongoose = require('mongoose');
+const { callingFunction } = require('../routes/Main');
 
 
 const createProject = async (req, res) => {
@@ -19,6 +20,7 @@ const createProject = async (req, res) => {
                 ...req.body,
                 admin: req.user.id
             });
+            callingFunction();
             res.status(201).json({message:  project});
         });
 

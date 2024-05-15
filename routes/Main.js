@@ -26,4 +26,7 @@ const callingFunction = async () => {
 
 callingFunction();
 
-  module.exports = mainRouter;
+module.exports = {
+    mainRouter,
+    callingFunction
+}
