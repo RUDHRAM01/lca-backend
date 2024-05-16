@@ -25,9 +25,19 @@ const getSchema = async (req, res) => {
     }
 };
 
+const getSchemaName = async (req, res) => {
+    try {
+        const schema = await UserDefine.find({ project: req.params.id }, { name: 1 });
+        res.status(200).json({ message: schema });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 
 module.exports = {
     createSchema,
-    getSchema
+    getSchema,
+    getSchemaName
 };
