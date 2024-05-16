@@ -3,6 +3,7 @@ const SchemaRouter = require('express').Router();
 
 SchemaRouter.post('/create/:id', UserDefineController.createSchema);
 SchemaRouter.get('/get/:id', UserDefineController.getSchema);
+SchemaRouter.get('/get/name/:id', UserDefineController.getSchemaName);
 
 
 module.exports = SchemaRouter;
