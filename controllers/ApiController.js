@@ -1,5 +1,6 @@
 const Api = require('../models/Api');
 const Project = require('../models/Project');
+const { mainRouterRoutes } = require('../routes/Main');
 
 
 const createApi = async (req, res) => {
@@ -18,6 +19,7 @@ const createApi = async (req, res) => {
             ...req.body,
             project: req.params.id
         });
+        mainRouterRoutes();
         res.status(201).json({ api });
     } catch (error) {
         res.status(500).json({ error: error.message });
