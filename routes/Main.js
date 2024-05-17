@@ -38,8 +38,7 @@ const mainRouterRoutes = async () => {
         if(api.method === 'GET') {
           mainRouter.get(`/${project.name}/${id}/${api.endpoint}`, async (req, res) => {
             const modal = await createModal(api)
-            // const data = await modal.find();
-            const data = 'data'
+            const data = await modal.find();
             res.status(200).json(data);
           });
         } else if(api.method === 'POST') {
@@ -63,5 +62,6 @@ mainRouterRoutes();
 
 module.exports = {
     mainRouter,
-    callingFunction
+    callingFunction,
+    mainRouterRoutes
 }
