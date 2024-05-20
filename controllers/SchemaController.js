@@ -1,6 +1,7 @@
 const UserDefine = require("../models/UserDefineSchema");
 const Apis = require('../models/Api');
 const Project = require("../models/Project");
+const mongoose = require("mongoose");
 
 const createSchema = async (req, res) => {
   if (!req.body.name || !req.body.properties) {
@@ -73,7 +74,6 @@ const updateSchema = async (req, res) => {
 
 const deleteSchema = async (req, res) => {
   try {
-
     const schema = await UserDefine.findById(req.params.id);
     if (!schema) {
       return res.status(404).json({ error: "Schema not found" });
@@ -86,6 +86,7 @@ const deleteSchema = async (req, res) => {
 
     await UserDefine.deleteOne({ _id: req.params.id });
     await Apis.deleteMany({ schema: req.params.id });
+    await mongoose.connection.db.dropCollection(schema.name+project._id + 's');
     res.status(200).json({ message: 'Schema deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });

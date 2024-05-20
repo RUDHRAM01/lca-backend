@@ -4,7 +4,7 @@ const Users = require("../models/User");
 const express = require("express");
 const mainRouter = express.Router();
 const createModal = require("../utils/CreateDynamicModal");
-const returnData = require("../utils/ReturnData");
+const UserDefine = require("../models/UserDefineSchema");
 
 
 const callingFunction = async () => {
@@ -43,7 +43,27 @@ const mainRouterRoutes = async () => {
           });
         } else if(api.method === 'POST') {
           mainRouter.post(`/${project.name}/${id}/${api.endpoint}`,async (req, res) => {
-            res.status(200).send("working fine " + `${project.name}`);
+            const modal = await createModal(api);
+            const data = await UserDefine.find({
+              project: api.project,
+              name: api.schema.name,
+            });
+            const obj = {};
+            data[0].properties.forEach((property) => {
+              if(property.isrequired && !req.body[property.pname]) {
+               return res.status(400).send(`${property.pname} is required`);
+              }else {
+                if(req.body[property.pname]) {
+                  obj[property.pname] = req.body[property.pname];
+                }
+              }
+            });
+            if(Object.keys(obj).length === 0) {
+              return res.status(400).send('cannot create empty object');
+            }
+            console.log(obj); 
+            const result = await modal.create(obj);
+            res.status(200).json(result);
           });
         } else if(api.method === 'PUT') {
           mainRouter.put(`/${project.name}/${id}/${api.endpoint}`,async (req, res) => {
